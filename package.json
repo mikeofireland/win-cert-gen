@@ -1,0 +1,13 @@
+{
+  "name": "win-cert-gen",
+  "version": "1.0.0",
+  "description": "Generates self-signed certs through powershell and adds them to the current users windows certificate store.  For local development purposes only.",
+  "bin": "./index.js",
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "commander": "^4.0.0",
+    "node-forge": "^0.9.1",
+    "node-powershell": "^4.0.0"
+  }
+}
