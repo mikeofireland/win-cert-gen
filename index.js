@@ -10,6 +10,7 @@ function uuidv4() { return 'xxxxxxxxxxxx4xxxyxxxxxxxxxxxxxxx'.replace(/[xy]/g, f
 program.option('-d, --dns <host>', 'dns host for cert (\'some.domain.com\')', 'localhost')
 program.option('-c, --cert <file>', 'output file for the cert ("./server.cert")', './server.cert')
 program.option('-k, --key <file>', 'output file for the key ("./server.key")', './server.key')
+program.option('-p, --pfx <file>', 'output file for the pfx ("./server.pfx")', './server.pfx')
 program.option('-e, --exp <hours>', 'expiration in hours (24)', 24)
 program.option('-x, --noclear', 'do not clear out previous generated certs')
 // Add a deletion option to help clear out old generated certs
@@ -70,12 +71,13 @@ function init(){
         let result = JSON.parse(output)
         if(!result.cert || !result.pfx) throw new Error('failed to export cert')
         fs.writeFileSync(program.cert, result.cert)
+        fs.writeFileSync(program.pfx, result.pfx)
         let p12Raw = forge.pkcs12.pkcs12FromAsn1(forge.asn1.fromDer(forge.util.decode64(result.pfx)), program.password || '')
         let oidShroudedPrivateKeyBag = '1.2.840.113549.1.12.10.1.2'
         let key = forge.pki.privateKeyToPem(p12Raw.getBags({ bagType: oidShroudedPrivateKeyBag })[oidShroudedPrivateKeyBag][0].key)
         fs.writeFileSync(program.key, key)
         ps2.dispose()
-        console.log(`Successfully wrote cert to ${program.cert} and key to ${program.key}`)
+        console.log(`Successfully wrote cert to ${program.cert}, key to ${program.key}, pfx to ${program.pfx} with (${program.password})`)
         process.exit()
       } catch(error) {console.log(error);ps2.dispose();process.exit(1)}
     })
