@@ -39,5 +39,6 @@ win-cert-gen -d local.example.com -e 720
 | -d, --dns _domain_  | dns host for cert       | localhost |
 | -c, --cert _file_ | output file for the cert  | ./server.cert |
 | -k, --key _file_  | output file for the key   | ./server.key |
+| -p, --pfx _file_  | output file for the pfx   | ./server.pfx |
 | -e, --exp _hours_ | expiration in hours       | 24 |
 | -x, --noclear       | do not clear out previous generated certs |  |
