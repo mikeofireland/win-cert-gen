@@ -14,13 +14,16 @@ program.option('-k, --key <file>', 'output file for the key ("./server.key")', '
 program.option('-p, --pfx <file>', 'output file for the pfx ("./server.pfx")', './server.pfx')
 program.option('-e, --exp <hours>', 'expiration in hours (24)', 24)
 program.option('-x, --noclear', 'do not clear out previous generated certs')
+program.option('-n, --name <certname>', 'cert name to save as and lookup to try delete', 'win-cert-gen generated')
 // Add a deletion option to help clear out old generated certs
 program.password = uuidv4()
 program.parse(process.argv)
 if(!program.dns) {console.log('error: required option \'-d, --dns <host>\' not specified');program.outputHelp();process.exit(1)}
 if(typeof program.exp !== 'number') program.exp = parseInt(program.exp) || 24
 function BuildCommand(cmd, props) {function AddParameter(cmd, key, value) {cmd = cmd + ` -${key} ${value}`;return cmd} if(cmd === undefined || cmd === null) throw new Error('cmd must be defined'); if(typeof(props) !== 'object' || props.constructor !== Object) props = {}; let result = `${cmd}`;for (const key in props) if(props[key].constructor === Array) result = AddParameter(result, key, props[key].join(',')); else result = AddParameter(result, key, props[key]); return result }
-const friendlyName = 'win-cert-gen generated'
+program.name = program.name ?? 'win-cert-gen generated'
+program.name = program.name.trim()
+const friendlyName = program.name
 function init(){
   const ps2 = new Shell({executionPolicy: 'Bypass'})
   console.log(`Writing cert ${program.dns} with exp in ${program.exp} hours named ${friendlyName}`)
@@ -42,7 +45,7 @@ function init(){
     KeyExportPolicy: 'NonExportable',
     NotAfter: `(Get-Date).AddHours(${program.exp})`,
     CertStoreLocation: 'cert:\\CurrentUser\\My',
-    KeyUsage: ['CertSign', 'CRLSign'],
+    KeyUsage: ['CertSign'],
     FriendlyName: `"${friendlyName}"`
   }))
   ps2.addCommand(BuildCommand('$selfCert = New-SelfSignedCertificate', {
@@ -54,6 +57,7 @@ function init(){
     KeyExportPolicy: 'Exportable',
     NotAfter: `(Get-Date).AddHours(${program.exp})`,
     CertStoreLocation: 'cert:\\CurrentUser\\My',
+    TextExtension: '@("2.5.29.37={text}1.3.6.1.5.5.7.3.1")',
     FriendlyName: `"${friendlyName}"`
   }))
   ps2.addCommand('$rootCert = [System.Security.Cryptography.X509Certificates.X509Certificate2]::New($rootCA.Export(1))')
