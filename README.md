@@ -42,4 +42,4 @@ win-cert-gen -d local.example.com -e 720
 | -p, --pfx _file_  | output file for the pfx   | ./server.pfx |
 | -e, --exp _hours_ | expiration in hours       | 24 |
 | -x, --noclear       | do not clear out previous generated certs |  |
-| -n, --name       | friendly name to save as and lookup to try delete |  |
+| -n, --name       | friendly name to save as and lookup to try delete | win-cert-gen generated |
