@@ -14,7 +14,7 @@ program.option('-k, --key <file>', 'output file for the key ("./server.key")', '
 program.option('-p, --pfx <file>', 'output file for the pfx ("./server.pfx")', './server.pfx')
 program.option('-e, --exp <hours>', 'expiration in hours (24)', 24)
 program.option('-x, --noclear', 'do not clear out previous generated certs')
-program.option('-n, --name <certname>', 'cert name to save as and lookup to try delete', 'win-cert-gen generated')
+program.option('-n, --name <certname>', 'friendly name to save as and lookup to try delete', 'win-cert-gen generated')
 // Add a deletion option to help clear out old generated certs
 program.password = uuidv4()
 program.parse(process.argv)

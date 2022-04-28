@@ -4,7 +4,7 @@
 ## Security Warnings
 * __Use at your own risk__
 * __Keep expiration as short as possible__
-* __Clear out unused root certs as they are a user/machine vulnerability__
+* __Clear out unused root certs as they can be a user/machine vulnerability__
 
 ## Requirements
 * powershell (tested on windows 10)
@@ -42,3 +42,4 @@ win-cert-gen -d local.example.com -e 720
 | -p, --pfx _file_  | output file for the pfx   | ./server.pfx |
 | -e, --exp _hours_ | expiration in hours       | 24 |
 | -x, --noclear       | do not clear out previous generated certs |  |
+| -n, --name       | friendly name to save as and lookup to try delete |  |
