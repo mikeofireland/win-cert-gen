@@ -10,7 +10,7 @@
   },
   "license": "MIT",
   "dependencies": {
-    "commander": "^4.0.0",
+    "commander": "^4.1.1",
     "node-forge": "^0.10.0",
     "node-powershell": "^4.0.0"
   }
