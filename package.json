@@ -1,6 +1,6 @@
 {
   "name": "win-cert-gen",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Generates self-signed certs through powershell and adds them to the current users windows certificate store.  For local development purposes only.",
   "bin": "./index.js",
   "author": "Michael Ireland",
