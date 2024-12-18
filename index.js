@@ -27,6 +27,7 @@ const friendlyName = program.name
 function init(){
   const ps2 = new Shell({executionPolicy: 'Bypass'})
   console.log(`Writing cert ${program.dns} with exp in ${program.exp} hours named ${friendlyName}`)
+  ps2.addCommand('$env:PSModulePath = [Environment]::GetEnvironmentVariable("PSModulePath", "Machine")')
   if(!program.noclear) {
     ps2.addCommand('$store = new-object System.Security.Cryptography.X509Certificates.X509Store([System.Security.Cryptography.X509Certificates.StoreName]::Root,"currentuser")')
     ps2.addCommand('$x=$store.Open("MaxAllowed")')
